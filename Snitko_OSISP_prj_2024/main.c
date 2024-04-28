@@ -9,6 +9,11 @@
 int main() {
     // Установка обработчика сигнала SIGINT (Ctrl+C)
     signal(SIGINT, handle_signal);
+    
+    SysInfo sysinfo;
+    
+     // Чтение данных о системе
+     read_sysinfo(&sysinfo);
 
     // Чтение данных при запуске
     num_processes = read_processes(processes);
@@ -28,9 +33,9 @@ int main() {
         // Очистка экрана перед обновлением информации
         system("clear");
 
-        // Отображение SysInfo
-        displaySystemInfo();
-
+        // Отображение информации о системе
+        display_sysinfo(&sysinfo);
+        
         // Чтение данных о процессах и потоках
         num_processes = read_processes(processes);
         if (num_processes < 0) {

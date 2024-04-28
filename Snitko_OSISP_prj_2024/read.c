@@ -6,6 +6,23 @@
 #include <unistd.h>
 #include <errno.h>
 
+void read_sysinfo(SysInfo *sysinfo) {
+    struct sysinfo info;
+    if (sysinfo_mem_info(&info) == 0) {
+        sysinfo->total_processes = info.procs;
+        sysinfo->running_processes = info.procs_running;
+        sysinfo->total_threads = info.totalhigh;
+        sysinfo->num_users = info.users;
+        sysinfo->load_avg[0] = info.loads[0];
+        sysinfo->load_avg[1] = info.loads[1];
+        sysinfo->load_avg[2] = info.loads[2];
+        sysinfo->cpu_usage_user = info.totalcpu * 100.0 / (1 << SI_CPU_SHIFT);
+        sysinfo->cpu_usage_system = info.totalsystemcpu * 100.0 / (1 << SI_CPU_SHIFT);
+    } else {
+        printf("Ошибка чтения информации о системе\n");
+    }
+}
+
 int read_processes(Process *processes) {
     DIR *dir;
     struct dirent *entry;

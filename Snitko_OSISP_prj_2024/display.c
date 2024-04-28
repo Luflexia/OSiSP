@@ -1,5 +1,16 @@
 #include "display.h"
+#include "sysinfo.h"
 #include <stdio.h>
+
+void display_sysinfo(SysInfo *sysinfo) {
+    printf("Общее количество процессов: %d\n", sysinfo->total_processes);
+    printf("Количество активных процессов: %d\n", sysinfo->running_processes);
+    printf("Общее количество потоков: %d\n", sysinfo->total_threads);
+    printf("Количество пользователей: %d\n", sysinfo->num_users);
+    printf("Средняя нагрузка на систему (за последние 1, 5 и 15 минут): %.2f, %.2f, %.2f\n", sysinfo->load_avg[0], sysinfo->load_avg[1], sysinfo->load_avg[2]);
+    printf("Использование ЦП пользователем: %.2f%%\n", sysinfo->cpu_usage_user);
+    printf("Использование ЦП системой: %.2f%%\n", sysinfo->cpu_usage_system);
+}
 
 void display_processes(Process *processes, int num_processes) {
     printf("%-8s %-15s %-8s %-12s %-12s %-8s %-8s %s\n",
